@@ -1,11 +1,9 @@
 "use strict";
 
-console.log("hello");
-
 var template = React.createElement(
   "p",
   { id: "test" },
-  "YEAH BABY"
+  "YEAH BABY !!"
 );
 var appRoot = document.getElementById('app');
 
