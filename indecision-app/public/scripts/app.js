@@ -2,8 +2,19 @@
 
 var appObject = {
     title: "test title",
-    subtitle: "test subtitle"
+    subtitle: "test subtitle",
+    options: ["A", "B"]
 };
+
+function getSubtitle(subtitle) {
+    if (subtitle) {
+        return React.createElement(
+            "p",
+            null,
+            appObject.subtitle
+        );
+    }
+}
 
 var template = React.createElement(
     "div",
@@ -13,12 +24,31 @@ var template = React.createElement(
         { id: "test" },
         appObject.title
     ),
-    React.createElement(
+    appObject.subtitle && React.createElement(
         "p",
         null,
         appObject.subtitle
-    )
+    ),
+    getSubtitle(appObject.subtitle),
+    appObject.options.length > 0 ? "Here are your options" : "No options"
 );
+
+var user = {
+    name: "Alex",
+    age: 23,
+    Location: "Paris"
+};
+
+function getLocation(location) {
+    if (location) {
+        return React.createElement(
+            "p",
+            null,
+            "Location : ",
+            location
+        );
+    }
+}
 
 var template2 = React.createElement(
     "div",
@@ -26,18 +56,16 @@ var template2 = React.createElement(
     React.createElement(
         "h1",
         null,
-        "Alex B"
+        user.name ? user.name : "Anonymous"
     ),
-    React.createElement(
+    null,
+    user.age && user.age >= 18 && React.createElement(
         "p",
         null,
-        "Age: 23"
+        "Age: ",
+        user.age
     ),
-    React.createElement(
-        "p",
-        null,
-        "Location: Paris"
-    )
+    getLocation(user.Location)
 );
 var appRoot = document.getElementById('app');
 var appRoot2 = document.getElementById('app2');
