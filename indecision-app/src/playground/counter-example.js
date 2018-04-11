@@ -5,35 +5,40 @@ class Counter extends React.Component {
         this.handleMinusOne = this.handleMinusOne.bind(this);
         this.handleReset = this.handleReset.bind(this);
         this.state = {
-            count: props.count
+            count: 0
         };
     }
+
+    componentDidMount() {
+        try {
+            const json = localStorage.getItem('count');
+            const count = parseInt(json, 10);
+
+            if(!isNaN(count)) {
+                this.setState(() => ({ count }));
+            }
+                } catch (e) {
+            console.log(e);
+        }
+    }
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.count !== this.state.count) {
+            console.log('Updated');
+            const json = JSON.stringify(this.state.count);
+            localStorage.setItem('count', json);
+        }
+    }
     handleAddOne() {
-        // this.setState((prevState) => {
-        //     return {
-        //         count : prevState.count +1
-        //     }
-        // });
-        this.setState({
-            count : this.state.count + 1
-        });
+        this.setState(() => ({ count : this.state.count + 1 }));
     }
     handleMinusOne() {
-        this.setState((prevState) => {
-            return {
-                count : prevState.count -1
-            }
-        });
+        this.setState((prevState) => ({ count : prevState.count -1 }));
         // this.setState({
         //     count : this.state.count - 1
         // });
     }
     handleReset() {
-        this.setState(() => {
-            return {
-                count : 0
-            }
-        });
+        this.setState(() => ({ count : 0 }));
     }
     render() {
         return(
@@ -45,10 +50,6 @@ class Counter extends React.Component {
             </div>
         );
     }
-}
-
-Counter.defaultProps = {
-    count: 10
 }
 
 ReactDOM.render(<Counter count={2}/>, document.getElementById('app'));
